@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">kunaal-MyBookWishlist</string>
     <string name="total_books_0_read_0">Total Books: 0, Read: 0</string>
-    <string name="todo">TODO</string>
+
     <string name="book_title">Book Title</string>
     <string name="author_name">Author Name</string>
     <string name="genre">Genre</string>
