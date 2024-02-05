@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView booksRecyclerView;
     private TextView totalCountTextView;
     private FloatingActionButton addBookFab;
+    private ListView booksListView;
+
 
 
     @Override
@@ -28,10 +32,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         booksList = new ArrayList<>();
-        adapter = new BooksAdapter(this, booksList);
-        booksRecyclerView = findViewById(R.id.booksRecyclerView);
-        booksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        booksRecyclerView.setAdapter(adapter);
+        adapter = new BooksAdapter(this, booksList); // Ensure BooksAdapter is compatible with ListView
+        booksListView = findViewById(R.id.booksListView);
+        booksListView.setAdapter((ListAdapter) adapter); // Set adapter to ListView
 
         totalCountTextView = findViewById(R.id.totalCountTextView);
         updateTotalCount();
@@ -42,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
             startActivityForResult(intent, RequestCodes.ADD_BOOK_REQUEST);
         });
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -59,8 +61,7 @@ public class MainActivity extends AppCompatActivity {
                         data.getBooleanExtra("read", false)
                 );
                 booksList.add(newBook);
-                System.out.println("hiiiiiiiiiiiiiiiiii");
-                System.out.println(booksList);
+
                 adapter.notifyDataSetChanged();
 
             } else if (requestCode == RequestCodes.EDIT_BOOK_REQUEST) {
