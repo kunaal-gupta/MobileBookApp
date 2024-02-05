@@ -39,10 +39,6 @@ public class Book {
         return isRead;
     }
 
-    public void setRead(boolean read) {
-        isRead = read;
-    }
-
     // Getters
     public String getTitle() {
         return title;
@@ -60,20 +56,4 @@ public class Book {
         return publicationYear;
     }
 
-    // Setters
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
-    public void setPublicationYear(int publicationYear) {
-        this.publicationYear = publicationYear;
-    }
 }

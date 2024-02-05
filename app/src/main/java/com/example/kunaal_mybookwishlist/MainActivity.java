@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -36,12 +35,12 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Book> booksList;
 
     private BooksAdapter adapter;
-    private RecyclerView booksRecyclerView;
     private TextView totalCountTextView;
     private FloatingActionButton addBookFab;
     private ListView booksListView;
 
-
+    int addBookRequest = 1;
+    int editBookRequest = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,19 +58,19 @@ public class MainActivity extends AppCompatActivity {
         addBookFab = findViewById(R.id.addBookFab);
         addBookFab.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, AddEditBookActivity.class);
-            startActivityForResult(intent, RequestCodes.ADD_BOOK_REQUEST);
+            startActivityForResult(intent, addBookRequest);
         });
 
         booksListView.setOnItemClickListener((parent, view, position, id) -> {
             Book selectedBook = booksList.get(position);
             Intent intent = new Intent(MainActivity.this, AddEditBookActivity.class);
-            intent.putExtra(AddEditBookActivity.EXTRA_POSITION, position); // Make sure this is used to pass the list position or a unique book ID
-            intent.putExtra(AddEditBookActivity.EXTRA_TITLE, selectedBook.getTitle());
-            intent.putExtra(AddEditBookActivity.EXTRA_AUTHOR, selectedBook.getAuthor());
-            intent.putExtra(AddEditBookActivity.EXTRA_GENRE, selectedBook.getGenre());
-            intent.putExtra(AddEditBookActivity.EXTRA_YEAR, selectedBook.getPublicationYear());
-            intent.putExtra(AddEditBookActivity.EXTRA_READ, selectedBook.isRead());
-            startActivityForResult(intent, RequestCodes.EDIT_BOOK_REQUEST);
+            intent.putExtra(AddEditBookActivity.extraPosition, position); // Make sure this is used to pass the list position or a unique book ID
+            intent.putExtra(AddEditBookActivity.extraTitle, selectedBook.getTitle());
+            intent.putExtra(AddEditBookActivity.extraAuthor, selectedBook.getAuthor());
+            intent.putExtra(AddEditBookActivity.extraGenre, selectedBook.getGenre());
+            intent.putExtra(AddEditBookActivity.extraYear, selectedBook.getPublicationYear());
+            intent.putExtra(AddEditBookActivity.extraRead, selectedBook.isRead());
+            startActivityForResult(intent, editBookRequest);
         });
 
         booksListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -97,25 +96,25 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
-            if (requestCode == RequestCodes.ADD_BOOK_REQUEST) {
+            if (requestCode == addBookRequest) {
                 // Extract book details from Intent and add a new Book object to the list
-                String title = data.getStringExtra(AddEditBookActivity.EXTRA_TITLE);
-                String author = data.getStringExtra(AddEditBookActivity.EXTRA_AUTHOR);
-                String genre = data.getStringExtra(AddEditBookActivity.EXTRA_GENRE);
-                int year = data.getIntExtra(AddEditBookActivity.EXTRA_YEAR, 0);
-                boolean isRead = data.getBooleanExtra(AddEditBookActivity.EXTRA_READ, false);
+                String title = data.getStringExtra(AddEditBookActivity.extraTitle);
+                String author = data.getStringExtra(AddEditBookActivity.extraAuthor);
+                String genre = data.getStringExtra(AddEditBookActivity.extraGenre);
+                int year = data.getIntExtra(AddEditBookActivity.extraYear, 0);
+                boolean isRead = data.getBooleanExtra(AddEditBookActivity.extraRead, false);
 
                 Book newBook = new Book(title, author, genre, year, isRead);
                 booksList.add(newBook);
-            } else if (requestCode == RequestCodes.EDIT_BOOK_REQUEST) {
+            } else if (requestCode == editBookRequest) {
                 // Extract updated book details and position from Intent
-                int position = data.getIntExtra(AddEditBookActivity.EXTRA_POSITION, -1);
+                int position = data.getIntExtra(AddEditBookActivity.extraPosition, -1);
                 if (position != -1) {
-                    String title = data.getStringExtra(AddEditBookActivity.EXTRA_TITLE);
-                    String author = data.getStringExtra(AddEditBookActivity.EXTRA_AUTHOR);
-                    String genre = data.getStringExtra(AddEditBookActivity.EXTRA_GENRE);
-                    int year = data.getIntExtra(AddEditBookActivity.EXTRA_YEAR, 0);
-                    boolean isRead = data.getBooleanExtra(AddEditBookActivity.EXTRA_READ, false);
+                    String title = data.getStringExtra(AddEditBookActivity.extraTitle);
+                    String author = data.getStringExtra(AddEditBookActivity.extraAuthor);
+                    String genre = data.getStringExtra(AddEditBookActivity.extraGenre);
+                    int year = data.getIntExtra(AddEditBookActivity.extraYear, 0);
+                    boolean isRead = data.getBooleanExtra(AddEditBookActivity.extraRead, false);
 
                     // Create an updated Book object and replace the old one at the position
                     Book updatedBook = new Book(title, author, genre, year, isRead);
