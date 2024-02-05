@@ -18,6 +18,21 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
+    /**
+     * MainActivity serves as the entry point for the app, displaying a list of books and providing options to add, edit, and delete books.
+
+     * Purpose:
+         - MainActivity serves as the primary interface for displaying and managing a list of
+            books, allowing users to add, edit, and delete book entries.
+
+     * Design Rationales:
+         - ListView with Custom Adapter: Offers efficient display and customization of list items, enhancing user experience and performance.
+         - FloatingActionButton: Used for adding new books, providing a clear and accessible action point following Material Design principles.
+         - Activity Results: Facilitates data exchange between MainActivity and AddEditBookActivity, ensuring UI updates only upon confirmed changes.
+         - Click Listeners: Enable intuitive interaction with list items for editing and deletion, leveraging familiar user gestures.
+         - AlertDialog for Deletion: Confirms user intent before deleting a book, preventing accidental data loss.
+     **/
+
     private ArrayList<Book> booksList;
 
     private BooksAdapter adapter;

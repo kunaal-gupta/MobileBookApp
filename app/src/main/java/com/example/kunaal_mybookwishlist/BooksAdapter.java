@@ -11,6 +11,24 @@ import java.util.ArrayList;
 
 public class BooksAdapter extends BaseAdapter {
 
+    /**
+     * Purpose:
+         BooksAdapter is designed to bridge a list of Book objects and a ListView, enabling the
+         display of book information in a list format within the UI.
+
+     * Design Rationale:
+         - ViewHolder Pattern: Utilizes the ViewHolder pattern to improve list scrolling performance. By holding view references,
+           it eliminates the need for repeated findViewById() calls.
+         - Context Usage: Requires a Context to inflate list item layouts, ensuring that the adapter can be used in various parts
+           of the application without direct dependency on specific activities or fragments.
+         - Modular Data Source: Operates on an ArrayList<Book>, making the adapter versatile and decoupled from the data source's nature.
+
+     * Outstanding Issues:
+         - No such issues at present
+
+     **/
+
+
     private static final String TAG = "BooksAdapter";
     private final Context context;
     private final ArrayList<Book> booksList;
