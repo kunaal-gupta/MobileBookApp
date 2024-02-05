@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class AddEditBookActivity extends AppCompatActivity {
@@ -64,16 +66,20 @@ public class AddEditBookActivity extends AppCompatActivity {
         String title = editTextBookTitle.getText().toString();
         String author = editTextAuthor.getText().toString();
         String genre = genreSpinner.getSelectedItem().toString();
-
-        System.out.print(title);
-        System.out.print(author);
-        System.out.print(genre);
-
-        int year = Integer.parseInt(editTextPublicationYear.getText().toString());
+        String yearString = editTextPublicationYear.getText().toString();
         boolean isRead = readCheckBox.isChecked();
 
-        if (title.trim().isEmpty() || author.trim().isEmpty()) {
-            // Show error message or use editText.setError("Required");
+        if (title.trim().isEmpty() || author.trim().isEmpty() || yearString.trim().isEmpty()) {
+            // Show error message to the user or use editText.setError("Required");
+            Toast.makeText(this, "Title, author, and year must be filled out", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        int year;
+        try {
+            year = Integer.parseInt(yearString);
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Publication year must be a number", Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -92,4 +98,5 @@ public class AddEditBookActivity extends AppCompatActivity {
         setResult(RESULT_OK, data);
         finish();
     }
+
 }

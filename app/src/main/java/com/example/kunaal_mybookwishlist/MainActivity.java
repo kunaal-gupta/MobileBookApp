@@ -1,16 +1,15 @@
 package com.example.kunaal_mybookwishlist;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -34,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         booksList = new ArrayList<>();
         adapter = new BooksAdapter(this, booksList); // Ensure BooksAdapter is compatible with ListView
         booksListView = findViewById(R.id.booksListView);
-        booksListView.setAdapter((ListAdapter) adapter); // Set adapter to ListView
+        booksListView.setAdapter(adapter);
 
         totalCountTextView = findViewById(R.id.totalCountTextView);
         updateTotalCount();
@@ -50,29 +49,24 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
-            // Assuming the Intent data includes book details as extras
             if (requestCode == RequestCodes.ADD_BOOK_REQUEST) {
-                // Extract book details and create a new Book object
-                Book newBook = new Book(
-                        data.getStringExtra("title"),
-                        data.getStringExtra("author"),
-                        data.getStringExtra("genre"),
-                        data.getIntExtra("year", 0),
-                        data.getBooleanExtra("read", false)
-                );
+                String title = data.getStringExtra(AddEditBookActivity.EXTRA_TITLE);
+                String author = data.getStringExtra(AddEditBookActivity.EXTRA_AUTHOR);
+                String genre = data.getStringExtra(AddEditBookActivity.EXTRA_GENRE);
+                int year = data.getIntExtra(AddEditBookActivity.EXTRA_YEAR, 0);
+                boolean isRead = data.getBooleanExtra(AddEditBookActivity.EXTRA_READ, false);
+
+                Book newBook = new Book(title, author, genre, year, isRead);
                 booksList.add(newBook);
-
                 adapter.notifyDataSetChanged();
-
             } else if (requestCode == RequestCodes.EDIT_BOOK_REQUEST) {
-                // Update the existing book details
-                // This requires identifying which book to update, which might involve passing an identifier or index
+                // Handle book editing
             }
 
             updateTotalCount();
-            adapter.notifyDataSetChanged();
         }
     }
+
 
     private void updateTotalCount() {
         int total = booksList.size();
@@ -81,5 +75,12 @@ public class MainActivity extends AppCompatActivity {
             if (book.isRead()) readCount++;
         }
         totalCountTextView.setText(String.format(Locale.getDefault(), "Total Books: %d, Read: %d", total, readCount));
+    }
+
+    public void addBook(Book book) {
+        if (booksList != null && adapter != null) {
+            booksList.add(book);
+            adapter.notifyDataSetChanged(); // Notify the adapter to refresh the ListView
+        }
     }
 }

@@ -12,9 +12,8 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/totalCountTextView"
         android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="2dp"
-        android:layout_marginBottom="0dp" />
+        android:layout_marginStart="-4dp"
+        android:layout_marginBottom="35dp" />
 
     <TextView
         android:id="@+id/totalCountTextView"
