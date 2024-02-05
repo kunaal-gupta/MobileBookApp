@@ -6,4 +6,9 @@
     <string name="author_name">Author Name</string>
     <string name="genre">Genre</string>
     <string name="read_unread">Read/Unread</string>
+    <string name="adding_editing_a_book">Adding/Editing a Book</string>
+    <string name="publication_year">Publication Year</string>
+    <string name="read">Read</string>
+    <string name="genre_prompt">Genre</string>
+
 </resources>

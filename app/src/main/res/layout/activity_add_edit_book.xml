@@ -11,7 +11,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Adding a New Book"
+            android:text="@string/adding_editing_a_book"
             android:textSize="24sp"
             android:textStyle="bold"
             android:gravity="center"
@@ -21,7 +21,7 @@
             android:id="@+id/editTextBookTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Book Title"
+            android:hint="@string/book_title"
             android:maxLength="50"
             android:inputType="text" />
 
@@ -29,34 +29,36 @@
             android:id="@+id/editTextAuthor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Author Name"
+            android:hint="@string/author_name"
             android:maxLength="30"
             android:inputType="text" />
 
         <Spinner
             android:id="@+id/genreSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_width="222dp"
+            android:layout_height="43dp"
+            android:prompt="@string/genre_prompt" />
+
 
         <EditText
             android:id="@+id/editTextPublicationYear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Publication Year"
+            android:hint="@string/publication_year"
             android:inputType="number" />
 
         <CheckBox
             android:id="@+id/readCheckBox"
-            android:layout_width="wrap_content"
+            android:layout_width="99dp"
             android:layout_height="wrap_content"
-            android:text="Read" />
+            android:text="@string/read" />
 
         <Button
             android:id="@+id/saveButton"
-            android:layout_width="wrap_content"
+            android:layout_width="112dp"
             android:layout_height="wrap_content"
-            android:text="Save"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:text="Save" />
 
     </LinearLayout>
 </ScrollView>
