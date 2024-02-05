@@ -30,6 +30,10 @@ public class MainActivity extends AppCompatActivity {
          - Activity Results: Facilitates data exchange between MainActivity and AddEditBookActivity, ensuring UI updates only upon confirmed changes.
          - Click Listeners: Enable intuitive interaction with list items for editing and deletion, leveraging familiar user gestures.
          - AlertDialog for Deletion: Confirms user intent before deleting a book, preventing accidental data loss.
+
+     * Outstanding Issues:
+        - No such issues at present
+
      **/
 
     private ArrayList<Book> booksList;

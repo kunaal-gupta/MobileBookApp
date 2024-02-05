@@ -2,7 +2,7 @@ package com.example.kunaal_mybookwishlist;
 
 public class Book {
     /**
-     *
+
      *  The Book class represents a book entity in the application. It has book details
         including its title, author, genre, publication year, and read status.
 
@@ -19,6 +19,8 @@ public class Book {
         - Getters and setters are provided for all fields, allowing for both read and write operations
           on book attributes.
 
+     * Outstanding Issues:
+         - No such issues at present
         **/
 
     private String title;

@@ -14,21 +14,24 @@ import androidx.appcompat.app.AppCompatActivity;
 public class AddEditBookActivity extends AppCompatActivity {
     /**
      * It facilitates adding a new book to the wishlist or editing an existing book's details.
-     * Presents a form where users can input or modify the book's title, author, genre, publication year, and read status.
-     * <p>
-     * Purpose:
-     * - It provides a user interface for entering the details of a new book or editing the details of an existing book.
-     * - It also allow returning the entered or modified book details to the MainActivity.
-     * <p>
+       Presents a form where users can input or modify the book's title, author, genre publication year, and read status.
+
+     Purpose:
+      - It provides a user interface for entering the details of a new book or editing the details of an existing book.
+      - It also allow returning the entered or modified book details to the MainActivity.
+
      * Design Rationale:
-     * The activity uses EditTexts for text inputs (title, author, year), a Spinner for selecting a genre from a
-     * predefined list, and a CheckBox for marking the book as read or unread. Intent extras
-     * are used to pass book details between MainActivity and AddEditBookActivity, allowing for the pre-population.
-     * of fields in edit mode and the return of new or edited book details. A save button collects input data, validates it, and
-     * packages it into an intent result that is sent back to MainActivity.
-     * <p>
+          - The activity uses EditTexts for text inputs (title, author, year), a Spinner for
+            selecting a genre from a predefined list, and a CheckBox for marking the book as read or
+             unread.
+          - Intent extras are used to pass book details between MainActivity and AddEditBookActivity, allowing for the pre-population.
+            of fields in edit mode and the return of new or edited book details.
+          - A save button collects input data, validates it, and
+            packages it into an intent result that is sent back to MainActivity.
+
      * Outstanding Issues:
-     * No outstanding issues as such
+        - No outstanding issues as such
+
      **/
 
 
