@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genres_array">
+        <item>Fiction</item>
+        <item>Non-Fiction</item>
+        <item>Mystery</item>
+        <!-- Add other genres as needed -->
+    </string-array>
+</resources>
