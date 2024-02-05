@@ -2,9 +2,12 @@ package com.example.kunaal_mybookwishlist;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -43,6 +46,36 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, AddEditBookActivity.class);
             startActivityForResult(intent, RequestCodes.ADD_BOOK_REQUEST);
         });
+
+        booksListView.setOnItemClickListener((parent, view, position, id) -> {
+            Book selectedBook = booksList.get(position);
+            Intent intent = new Intent(MainActivity.this, AddEditBookActivity.class);
+            intent.putExtra(AddEditBookActivity.EXTRA_POSITION, position); // Make sure this is used to pass the list position or a unique book ID
+            intent.putExtra(AddEditBookActivity.EXTRA_TITLE, selectedBook.getTitle());
+            intent.putExtra(AddEditBookActivity.EXTRA_AUTHOR, selectedBook.getAuthor());
+            intent.putExtra(AddEditBookActivity.EXTRA_GENRE, selectedBook.getGenre());
+            intent.putExtra(AddEditBookActivity.EXTRA_YEAR, selectedBook.getPublicationYear());
+            intent.putExtra(AddEditBookActivity.EXTRA_READ, selectedBook.isRead());
+            startActivityForResult(intent, RequestCodes.EDIT_BOOK_REQUEST);
+        });
+
+        booksListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("Delete Book")
+                        .setMessage("Are you sure you want to delete this book?")
+                        .setPositiveButton("Yes", (dialog, which) -> {
+                            booksList.remove(position);
+                            adapter.notifyDataSetChanged();
+                            updateTotalCount();
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+                return true; // return true to indicate that we have handled the event
+            }
+        });
+
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -50,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
             if (requestCode == RequestCodes.ADD_BOOK_REQUEST) {
+                // Extract book details from Intent and add a new Book object to the list
                 String title = data.getStringExtra(AddEditBookActivity.EXTRA_TITLE);
                 String author = data.getStringExtra(AddEditBookActivity.EXTRA_AUTHOR);
                 String genre = data.getStringExtra(AddEditBookActivity.EXTRA_GENRE);
@@ -58,11 +92,24 @@ public class MainActivity extends AppCompatActivity {
 
                 Book newBook = new Book(title, author, genre, year, isRead);
                 booksList.add(newBook);
-                adapter.notifyDataSetChanged();
             } else if (requestCode == RequestCodes.EDIT_BOOK_REQUEST) {
-                // Handle book editing
+                // Extract updated book details and position from Intent
+                int position = data.getIntExtra(AddEditBookActivity.EXTRA_POSITION, -1);
+                if (position != -1) {
+                    String title = data.getStringExtra(AddEditBookActivity.EXTRA_TITLE);
+                    String author = data.getStringExtra(AddEditBookActivity.EXTRA_AUTHOR);
+                    String genre = data.getStringExtra(AddEditBookActivity.EXTRA_GENRE);
+                    int year = data.getIntExtra(AddEditBookActivity.EXTRA_YEAR, 0);
+                    boolean isRead = data.getBooleanExtra(AddEditBookActivity.EXTRA_READ, false);
+
+                    // Create an updated Book object and replace the old one at the position
+                    Book updatedBook = new Book(title, author, genre, year, isRead);
+                    booksList.set(position, updatedBook);
+                }
             }
 
+            // Notify the adapter of data changes and update the book count display
+            adapter.notifyDataSetChanged();
             updateTotalCount();
         }
     }
@@ -77,10 +124,4 @@ public class MainActivity extends AppCompatActivity {
         totalCountTextView.setText(String.format(Locale.getDefault(), "Total Books: %d, Read: %d", total, readCount));
     }
 
-    public void addBook(Book book) {
-        if (booksList != null && adapter != null) {
-            booksList.add(book);
-            adapter.notifyDataSetChanged(); // Notify the adapter to refresh the ListView
-        }
-    }
 }

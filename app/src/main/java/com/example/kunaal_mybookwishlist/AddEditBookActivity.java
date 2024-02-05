@@ -46,17 +46,18 @@ public class AddEditBookActivity extends AppCompatActivity {
 
         saveButton.setOnClickListener(view -> saveBook());
 
-        if (getIntent().hasExtra(EXTRA_BOOK_ID)) {
+        if (getIntent().hasExtra(EXTRA_POSITION)) { // This checks if we're editing
             setTitle("Edit Book");
             editTextBookTitle.setText(getIntent().getStringExtra(EXTRA_TITLE));
             editTextAuthor.setText(getIntent().getStringExtra(EXTRA_AUTHOR));
-            editTextPublicationYear.setText(String.valueOf(getIntent().getIntExtra(EXTRA_YEAR, 0)));
+            editTextPublicationYear.setText(String.valueOf(getIntent().getIntExtra(EXTRA_YEAR, 0))); // Ensure year is passed as int
             readCheckBox.setChecked(getIntent().getBooleanExtra(EXTRA_READ, false));
 
             // Set the spinner to the correct genre
-            ArrayAdapter<CharSequence> spinnerAdapter = (ArrayAdapter<CharSequence>) genreSpinner.getAdapter();
-            int spinnerPosition = spinnerAdapter.getPosition(getIntent().getStringExtra(EXTRA_GENRE));
-            genreSpinner.setSelection(spinnerPosition);
+            if (genreSpinner.getAdapter() != null) {
+                int spinnerPosition = adapter.getPosition(getIntent().getStringExtra(EXTRA_GENRE));
+                genreSpinner.setSelection(spinnerPosition);
+            }
         } else {
             setTitle("Add Book");
         }
@@ -70,8 +71,7 @@ public class AddEditBookActivity extends AppCompatActivity {
         boolean isRead = readCheckBox.isChecked();
 
         if (title.trim().isEmpty() || author.trim().isEmpty() || yearString.trim().isEmpty()) {
-            // Show error message to the user or use editText.setError("Required");
-            Toast.makeText(this, "Title, author, and year must be filled out", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Please fill out all fields.", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -79,22 +79,21 @@ public class AddEditBookActivity extends AppCompatActivity {
         try {
             year = Integer.parseInt(yearString);
         } catch (NumberFormatException e) {
-            Toast.makeText(this, "Publication year must be a number", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Invalid year format.", Toast.LENGTH_SHORT).show();
             return;
         }
 
         Intent data = new Intent();
+        // Retrieve the position if editing a book, otherwise, this won't be included
+        int position = getIntent().getIntExtra(EXTRA_POSITION, -1);
+        if (position != -1) {
+            data.putExtra(EXTRA_POSITION, position);
+        }
         data.putExtra(EXTRA_TITLE, title);
         data.putExtra(EXTRA_AUTHOR, author);
         data.putExtra(EXTRA_GENRE, genre);
         data.putExtra(EXTRA_YEAR, year);
         data.putExtra(EXTRA_READ, isRead);
-
-        int id = getIntent().getIntExtra(EXTRA_BOOK_ID, -1);
-        if (id != -1) {
-            data.putExtra(EXTRA_BOOK_ID, id);
-        }
-
         setResult(RESULT_OK, data);
         finish();
     }
